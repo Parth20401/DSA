@@ -1,0 +1,33 @@
+class Solution {
+
+private:
+    void solve(string digits,string output,int index,vector<string>& ans,string mapping[]){
+        //base case
+        if(index >= digits.length()){
+            ans.push_back(output);
+            return;
+        }
+        int number = digits[index] - '0'; //to convert character into number
+        string value = mapping[number]; //mapping the string acc to number
+
+        //now traverse through single letters
+        for(int i=0;i<value.length();i++){
+            output.push_back(value[i]); //for eg-> 2 maps to abc ,and for i=0 it will give a and then so on
+            solve(digits,output,index+1,ans,mapping);
+            output.pop_back(); //for emptying output string on the way back -->backtracking
+        }
+    }
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string>ans;
+        if(digits.length()==0)
+            return ans;
+        string output="";
+        string mapping[10]={"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        int index=0;
+
+        solve(digits,output,index,ans,mapping);
+        return ans;
+        
+    }
+};
