@@ -12,8 +12,8 @@ public:
 
         //case 2: overlapping of intervals & merging
         while(i < n && newInterval[1] >= intervals[i][0]){//newInterval's last element >= 1st element of an interval
-        newInterval[0] = min(newInterval[0], intervals[i][0]);
-        newInterval[1] = max(newInterval[1], intervals[i][1]);
+        newInterval[0] = min(newInterval[0], intervals[i][0]); //update starting index for new interval
+        newInterval[1] = max(newInterval[1], intervals[i][1]); //update ending index for new interval
         i++;
         }
         res.push_back(newInterval);
