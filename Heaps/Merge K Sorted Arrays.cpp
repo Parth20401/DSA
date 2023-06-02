@@ -50,3 +50,6 @@ vector<int> mergeKSortedArrays(vector<vector<int>>&kArrays, int k)
     return ans;
     }
 
+//TC - O(n*klog(k))
+//SC - O(n*k)
+
