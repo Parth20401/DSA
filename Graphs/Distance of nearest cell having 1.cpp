@@ -13,7 +13,7 @@ class Solution
 	    //pushing starting elements into queue
 	    for(int i=0 ; i<n; i++){
 	        for(int j=0; j<m; j++){
-	            if(grid[i][j] == 1){
+	            if(grid[i][j] == 1){  //or grid[i][j] == 0 for nearest 0
 	                q.push({{i, j}, 0}); //push starting points into queue i.e, those cells constaining 1
 	                vis[i][j] = 1;
 	            }
