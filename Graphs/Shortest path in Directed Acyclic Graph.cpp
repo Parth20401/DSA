@@ -22,6 +22,7 @@ class Solution {
       }
       
       //find the topo sort
+       //TC - O(N + M)
       vector<int> vis(N, 0);// visited array
       stack<int> st;
       for(int i=0; i<N; i++){
@@ -33,7 +34,8 @@ class Solution {
     vector<int> dist(N);
     for(int i=0; i<N; i++)  dist[i] = 1e9; //mark all the distances as infinity;
     dist[0] = 0; //mark the source as 0 (as dist from src to src is 0)
-    while(!st.empty()){
+       //TC - O(N + M) -> elements in stack + no of edges which it will go through
+     while(!st.empty()){
         int node = st.top();
         st.pop();
         
