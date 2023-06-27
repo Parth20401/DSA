@@ -4,7 +4,7 @@ public:
         vector<pair<int,int>> adj[n];
         //create the directed graph
         for(auto it : flights){
-            adj[it[0]].push_back({it[1], it[2]}); //connect the nodes of graph
+            adj[it[0]].push_back({it[1], it[2]}); //takes the source node and pushes the destination node and the cost as a pair into the adjacency list
         }
         //{stops, {node, dist}}
         queue<pair<int, pair<int,int>>> q;
