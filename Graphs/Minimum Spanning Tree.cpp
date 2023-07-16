@@ -9,9 +9,9 @@ class Solution
        
        pq.push({0,0}); //{weight, node}
        int sum = 0;
-       
+       //Total TC - O(E log(E))
        while(!pq.empty()){
-           
+          // log E
            auto it = pq.top();
            pq.pop();
            
@@ -22,7 +22,7 @@ class Solution
            //add it to the MST
            vis[node] = 1; //mark it as 1
            sum += weight;
-           
+           //E log E
            //now traverse to all neighbours
            for(auto i : adj[node]){
                int adjNode = i[0];
@@ -35,3 +35,6 @@ class Solution
        return sum;
     }
 };
+
+//Tc - O(E * log(E))
+//SC - O(E)
