@@ -1,40 +1,26 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
-        if(head==NULL)
-            return head;
-
-        ListNode* tail=head;
-        int len=1;
-
-        while(tail->next!=NULL){
-            tail=tail->next;
+        if(head == NULL || head->next == NULL || k == 0)    return head;
+        ListNode* temp = head;
+        int len = 1;
+        //calculating length of LL
+        while(temp->next != NULL){
+            temp = temp->next;
             len++;
         }
-        k=k % len; //to set k to vslue less than length
-        if(k==0)
-            return head;
 
-        //move to pivot &  rotate
-
-        ListNode* curr=head;
-        for(int i=0;i<len-k-1;i++){
-            curr=curr->next;
+        //connecting the last node to the first node
+        temp->next = head;
+        k = k%len; //if k > len of LL
+        int end = len - k; //to get end of list
+        while(end--){
+            temp = temp->next;
         }
-        ListNode* newHead=curr->next;
-        curr->next=NULL;
-        tail->next=head;
+        head = temp->next; //getting new head
+        temp->next = NULL; //pointing end of LL to null
 
-        return newHead;
+        return head;
     }
 };
+//TC - O(len) +  O(len - (len%k))
