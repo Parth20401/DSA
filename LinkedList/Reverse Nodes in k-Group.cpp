@@ -1,39 +1,45 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-        //base case
-        if(head==NULL)
-            return NULL;
+        if(head == NULL || k == 1)  return head;
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
 
-        ListNode* curr=head;
-        ListNode* prev=NULL;
-        ListNode* forward=NULL;
-        int count=0;
+        ListNode* curr = dummy, *prev = dummy, *nex = dummy;
 
-        while(curr!=NULL && count<k){
-            forward=curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=forward;
-            count++;
+        int len = 0;
+        //find length of list
+        while(curr->next != NULL){
+            curr = curr->next;
+            len++;
         }
-        if(count<k){
-              curr = prev;
-            prev = nullptr;
-            while (curr != nullptr) {
-                forward = curr->next;
-                curr->next = prev;
-                prev = curr;
-                curr = forward;
+
+        while(len >= k){
+            //assigning values to curr and nex
+            curr = prev->next;
+            nex = curr->next;
+            //now perform (k-1) reversals for each group
+            for(int i=1; i<k; i++){
+                curr->next = nex->next;
+                nex->next = prev->next;
+                prev->next = nex;
+                nex = curr->next;//moving nex forward (can't write nex = nex->next as it points to curr)
             }
-            return prev;
+            len = len - k;
+            prev = curr;
         }
-
-        //recursive call
-        ListNode* res=reverseKGroup(forward,k);
-         if(forward!=NULL)
-            head->next=res;
-
-        return prev;
+        return dummy->next;
     }
 };
+//Tc - O(N/K)*N = O(N)
+//SC - O(1)
