@@ -11,6 +11,7 @@ public:
         for(auto& c:count){
             if(c.second % 2 == 0)  result += c.second;  //we simply add all even count 
             else{
+                 //there can be many odd char, but we take only one occurence as only one odd char can come in middle
                 odd_found = true;
                 result += c.second - 1;  //we add all odd counts-1 to make it even
             }
