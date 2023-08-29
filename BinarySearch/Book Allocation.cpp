@@ -1,77 +1,42 @@
-//{ Driver Code Starts
-// Initial template for C++
-
-#include<bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
-//User function template in C++
-
-class Solution 
-{
-    public:
-    bool isPossible(int A[],int N,int M,int mid){
-        int studentCount=1;
-        int pageSum=0;
-        for(int i=0;i<N;i++){
-            
-            if(pageSum+A[i]<=mid){
-                
-                pageSum+=A[i];
-            }
-            else{
-                studentCount++;
-                if(studentCount>M || A[i]>mid){
-                    return false;
-                }
-                pageSum=A[i];
-            }
-        }
-        return true;
+int sum(vector<int> &A){
+    int sumOfArray = 0;
+    for(int i=0; i<A.size(); i++){
+        sumOfArray += A[i];
     }
-        
-    int findPages(int A[], int N, int M) 
-    {
-        if(M>N) return -1;
-        int s=0;
-        int sum=0;
-        int ans=-1;
-        for(int i=0;i<N;i++){
-            sum+=A[i];
-        }
-        int e=sum;
-        while(s<=e){
-         int mid=s+(e-s)/2;
-            if(isPossible(A,N,M,mid)){
-                ans=mid;
-                e=mid-1;
-            }
-            else
-            s=mid+1;
-        }
-        return ans;
-    }
-};
-
-//{ Driver Code Starts.
-
-int main() {
-    int t;
-    cin>>t;
-    while(t--){
-        int n;
-        cin>>n;
-        int A[n];
-        for(int i=0;i<n;i++){
-            cin>>A[i];
-        }
-        int m;
-        cin>>m;
-        Solution ob;
-        cout << ob.findPages(A, n, m) << endl;
-    }
-    return 0;
+    return sumOfArray;
 }
 
-// } Driver Code Ends
+int getStudents(vector<int> &A, int pages){
+    int students = 1;
+    long long pageStudents = 0;
+    
+    for(int i=0; i<A.size(); i++){
+        if(pageStudents + A[i] <= pages){
+            pageStudents += A[i];
+        }
+        else{ //if true, means we have to get new student
+            students++;
+            pageStudents = A[i];//allocate pages for next pages
+        }
+    }
+    return students;
+}
+
+int Solution::books(vector<int> &A, int B) {
+    if(B > A.size())    return -1;
+    
+    int low = *max_element(A.begin(), A.end()); //STL to give max max_element of array
+    int high = sum(A);//sum of array
+    
+    while(low <= high){
+        int mid = low + (high - low)/2;
+        int students = getStudents(A, mid); //get the no of students with allocated pages i.e., mid
+        if(students > B)
+            low = mid + 1;//if students come out to be more, than move ahead with more pages
+        else
+            high = mid - 1;
+    }
+    return low;
+}
+//TC - O((log(sum(arr) - max(arr)) + 1) * n)
+//SC - O(1)
