@@ -1,39 +1,51 @@
 class Solution {
 public:
-    int minDays(vector<int>& bloomDay, int m, int k) {
-        if((long long int)m*k>bloomDay.size())  return -1;
-        int s=1,e=1,mid;
-        for(int i:bloomDay){
-            s=min(s,i);
-            e=max(e,i);
-        }
-        while(s<e){
-            mid=s+(e-s)/2;
-            if(CanMake(mid,m,k,bloomDay)){
-                e=mid;
-            }
-            else
-                s=mid+1;
-        }
+    //fn to check if bouquet can be made on that particular day
+    bool isPossible(vector<int>& bloomDay, int day, int m, int k){
+        int noOfBouquets = 0;
+        int count = 0;
 
-            return s;
-    }
-
-    bool CanMake(int mid,int m,int k,vector<int>&bloomDay)
-    {
-        int count=0;
-        for(int i:bloomDay){
-            if(i<=mid)
-            {
+        for(int i=0; i<bloomDay.size(); i++){
+            if(bloomDay[i] <= day)
                 count++;
-                if(count==k){
-                    m--;
-                    count=0;
-                    if(m==0)  return true;
-                }
+
+            //if we come here, means we have encountered non bloom flower, so we check if we can make a bouquet from the flowers we got
+            else{
+                noOfBouquets += count/k;
+                count = 0;
             }
-            else count=0;
         }
-        return false;
+
+        noOfBouquets += count/k; //adding the remaining flowers
+
+        if(noOfBouquets >= m)
+            return true;
+        else
+            return false;
+
+    }
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        
+        int n = bloomDay.size();
+        if((long long int)m*k > n)   return -1;
+        int lo = 1;
+        int hi = 1;
+
+        //finding the range for binary search
+        for(int i=0; i<n; i++){
+            lo = min(lo, bloomDay[i]);
+            hi = max(hi, bloomDay[i]);
+        }
+
+        while(lo < hi){
+            int mid = (lo + hi)/2;
+
+            if(isPossible(bloomDay, mid, m, k)) //if true, then possible ans found, so go further lower
+                hi = mid;
+            
+            else 
+                lo = mid + 1;
+        }
+        return lo;
     }
 };
