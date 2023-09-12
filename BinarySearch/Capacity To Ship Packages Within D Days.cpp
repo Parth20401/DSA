@@ -1,29 +1,35 @@
 class Solution {
 public:
-    int shipWithinDays(vector<int>& weights, int days) {
-        int s=0;
-        int e=0;
-        int mid;
-        for(int i:weights){
-            s=max(s,i);
-            e+=i;
-        }
-        while(s<e){
-            mid=s+(e-s)/2;
-            int d=1,curr=0;
-            for(int i:weights){
 
-                if(curr+i>mid){
-                    d++;
-                    curr=0;
-                }
+    int findDays(vector<int>& weights, int capacity, int days){
+        int load = 0;
+        int d = 1;
 
-                curr+=i;
+        for(int i=0; i<weights.size(); i++){
+        //if while loading, the weights exceed the cpacity, then go to another day with that same load as before
+            if(load + weights[i] > capacity){
+                d++;
+                load = weights[i];//bcos this weight was not added so added to the next day
             }
-            if(d>days) s=mid+1;
-            else e=mid;
-           
+            else{
+                load += weights[i];
+            }
         }
-        return s;
+        return d;
+    }
+    int shipWithinDays(vector<int>& weights, int days) {
+        int lo = *max_element(weights.begin(), weights.end());
+        int hi = accumulate(weights.begin(), weights.end(), 0);
+
+        while(lo <= hi){
+            int mid = lo + (hi - lo)/2;
+
+            int noOfDays = findDays(weights, mid, days);
+            if(noOfDays <= days)
+                hi = mid - 1;
+            else
+                lo = mid + 1;
+        }
+        return lo;
     }
 };
