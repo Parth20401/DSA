@@ -1,25 +1,26 @@
 class Solution {
 public:
     string addBinary(string a, string b) {
-        string res;
-        int i = a.length() - 1;
-        int j = b.length() - 1;
+        string res = "";
+        int n = a.length();
+        int m = b.length();
+        int i = 0;
         int carry = 0;
-        while(i >= 0 || j >= 0){
-            int sum = carry;
-            if(i >= 0)
-                sum += a[i--] - '0'; //converting char to int
-            
-            if(j >= 0)
-                sum += b[j--] - '0';
 
-            carry = sum > 1? 1 : 0;  //adding carry
-            res += to_string(sum % 2);  //bcos of base 2
+        while(i < n || i < m || carry != 0){
+            int val1 = 0;
+            if(i < n && a[n - i - 1] == '1') //n-i-1 bcos we add from right to left
+                val1 = 1;
+
+            int val2 = 0;
+            if(i < m && b[m - i - 1] == '1')
+                val2 = 1;
+
+            res = to_string((val1 + val2 + carry) % 2) + res;//adding in reverse
+            carry = (val1 + val2 + carry) / 2;//to get carry
+            i++;
         }
-        if(carry) 
-            res += to_string(carry);
 
-            reverse(res.begin(), res.end());
-            return res;
+        return res;
     }
 };
