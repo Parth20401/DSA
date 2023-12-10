@@ -3,12 +3,14 @@ public:
     int hIndex(vector<int>& citations) {
 
         int n = citations.size(), i;
-        sort(citations.begin(), citations.end());
+        sort(citations.begin(), citations.end(), greater<int>());
+        int ans = 0;
 
         for(i=1; i<=n; i++){
-            if(i > citations[n - i])//if idx goes higher than count, means we have found the h index
+            if(citations[i - 1] < i) 
                 break;
+            ans = i;
         }
-        return i-1;
+        return ans;
     }
 };
