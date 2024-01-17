@@ -1,78 +1,42 @@
-/{ Driver Code Starts
-#include<bits/stdc++.h>
+#include <bits/stdc++.h> 
 using namespace std;
 
-class SortedStack{
-public:
-	stack<int> s;
-	void sort();
-};
+void sortedInsert(stack<int> &stack, int num){
 
-void printStack(stack<int> s)
-{
-    while (!s.empty())
-    {
-        printf("%d ", s.top());
-       	s.pop();
+    //base case
+    if (stack.empty() || stack.top() < num) {
+      stack.push(num); // pushing num where it is greater than st.top()
+      return;
     }
-    printf("\n");
-}
 
-int main()
-{
-int t;
-cin>>t;
-while(t--)
-{
-	SortedStack *ss = new SortedStack();
-	int n;
-	cin>>n;
-	for(int i=0;i<n;i++)
-	{
-	int k;
-	cin>>k;
-	ss->s.push(k);
-	}
-	ss->sort();
-	printStack(ss->s);
-}
-}
-// } Driver Code Ends
+    int n = stack.top();
+    stack.pop();
 
-
-/*The structure of the class is
-class SortedStack{
-public:
-	stack<int> s;
-	void sort();
-};
-*/
-
-/* The below method sorts the stack s 
-you are required to complete the below method */
-void SortedInsert(stack<int>&s,int x){
-    //base case-->if stack is empty or the top element is less than the given number 
-    if(s.empty() || s.top()<x){
-        s.push(x);
-        return;
-    } 
-    int n=s.top();
-    s.pop();
-    
     //recursive call
-    SortedInsert(s,x);
-    s.push(n);
+    sortedInsert(stack, num);
+
+    //while returning
+    stack.push(n);
 }
-void SortedStack :: sort()
+stack<int> sortStack(stack<int> &stack)
 {
-   if(s.empty()){
-       return;
-   }
-   int num=s.top();
-   s.pop();
-   
-   //recursive call
-   sort();
-   
-   SortedInsert(s,num);
+
+	//base case
+    if(stack.empty())
+        return stack;
+
+    int num = stack.top();
+    stack.pop();
+
+    //recursive call
+   sortStack(stack);
+
+    //while returning back, insert the element at its sorted place
+    sortedInsert(stack, num);
+
+    return stack;
+
 }
+
+//TC - O(n^2)
+//SC - O(N)
