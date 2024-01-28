@@ -6,6 +6,7 @@ void selectionSort(int arr[],int n)
     int min;
     for(int i=0;i<n;i++){
         min=i;
+        //now finding the minimum in the array to be swapped
         for(int j=i+1;j<n;j++){
             if(arr[min]>arr[j])
             min=j;
