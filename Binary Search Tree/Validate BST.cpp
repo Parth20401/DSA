@@ -1,15 +1,31 @@
-bool isBST(BinaryTreeNode<int> *root, int min, int max){
-    //base case
-    if(root == NULL)
-        return true;
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
 
-    if(root->data >= min && root->data <= max){  //checking for current node
-        bool left = isBST(root->left, min, root->data); //min value is same as above and max value is data of prev node
-        bool right = isBST(root->right, root->data, max);
-        return left && right;
-        } 
+private:
+    bool validateBST(TreeNode* root, long long mini, long long maxi){
+        if(root == NULL)
+            return true;
+
+        if(root->val > mini && root->val < maxi){
+            bool left = validateBST(root->left, mini, root->val);
+            bool right = validateBST(root->right, root->val, maxi);
+            return left && right;
+        }
         return false;
     }
-bool validateBST(BinaryTreeNode<int> *root) {
-    return isBST(root, INT_MIN, INT_MAX);  //for range we use max and min values of int
-}
+public:
+    bool isValidBST(TreeNode* root) {
+       bool ans = validateBST(root, LLONG_MIN, LLONG_MAX);
+        return ans;
+    }
+};
